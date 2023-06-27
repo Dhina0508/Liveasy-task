@@ -35,13 +35,19 @@ class _Login_PageState extends State<Login_Page> {
           ),
           Text(
             "Please select your Language",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           SizedBox(
             height: height * 0.01,
           ),
-          Text("You can change the language"),
-          Text("at any time."),
+          Text(
+            "You can change the language",
+            style: TextStyle(fontSize: 18),
+          ),
+          Text(
+            "at any time.",
+            style: TextStyle(fontSize: 18),
+          ),
           SizedBox(
             height: height * 0.03,
           ),
@@ -91,10 +97,18 @@ class _Login_PageState extends State<Login_Page> {
                       borderRadius: BorderRadius.zero,
                     ))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PhoneNumberVerfication()));
+                  if (click != "") {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PhoneNumberVerfication()));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Please select any language"),
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
                 },
                 child: Text(
                   "NEXT",
