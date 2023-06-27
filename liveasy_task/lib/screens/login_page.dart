@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy_task/main.dart';
 import 'package:liveasy_task/screens/auth.dart';
 
@@ -11,7 +12,11 @@ class Login_Page extends StatefulWidget {
 
 class _Login_PageState extends State<Login_Page> {
   var click = "";
-  final lang = ["English", "Tamil", "Hindi", "Telugu"];
+  final lang = [
+    "English",
+    "Tamil",
+    "Hindi",
+  ];
   String? value;
   @override
   Widget build(BuildContext context) {
@@ -35,18 +40,16 @@ class _Login_PageState extends State<Login_Page> {
           ),
           Text(
             "Please select your Language",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-          ),
-          SizedBox(
-            height: height * 0.01,
+            style:
+                GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 23),
           ),
           Text(
             "You can change the language",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 15),
           ),
           Text(
             "at any time.",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 15),
           ),
           SizedBox(
             height: height * 0.03,
@@ -63,13 +66,13 @@ class _Login_PageState extends State<Login_Page> {
                   hint: Text(
                     'English',
                     textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 15,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 17,
                       color: Colors.grey,
                     ),
                   ),
                   value: value,
-                  style: TextStyle(color: Colors.black),
+                  style: GoogleFonts.montserrat(color: Colors.black),
                   iconSize: 16 * 2,
                   icon: Icon(
                     Icons.arrow_drop_down,
@@ -112,10 +115,11 @@ class _Login_PageState extends State<Login_Page> {
                 },
                 child: Text(
                   "NEXT",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19,
-                      color: Colors.white),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 )),
           ),
           Spacer(),
@@ -151,6 +155,7 @@ class _Login_PageState extends State<Login_Page> {
       value: item,
       child: Text(
         item,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        style:
+            GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.bold),
       ));
 }

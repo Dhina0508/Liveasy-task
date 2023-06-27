@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy_task/main.dart';
 import 'package:liveasy_task/screens/home.dart';
 import 'package:pinput/pinput.dart';
@@ -6,17 +8,49 @@ import 'package:pinput/pinput.dart';
 class VerifyOTP extends StatefulWidget {
   var codedigit;
   var phoneNo;
-  var verificationCode;
 
-  VerifyOTP(
-      {required this.codedigit,
-      required this.phoneNo,
-      required this.verificationCode});
+  VerifyOTP({
+    required this.codedigit,
+    required this.phoneNo,
+  });
   @override
   State<VerifyOTP> createState() => _VerifyOTPState();
 }
 
 class _VerifyOTPState extends State<VerifyOTP> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    verifyPhonenumber(phoneNo: widget.phoneNo, codedigit: widget.codedigit);
+  }
+
+  String? VerificationCode;
+  verifyPhonenumber({@required phoneNo, @required codedigit}) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: "${codedigit + phoneNo}",
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await FirebaseAuth.instance.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(e.message.toString()),
+            duration: Duration(seconds: 3),
+          ));
+        },
+        codeSent: (String vID, int? resentToken) {
+          setState(() {
+            VerificationCode = vID;
+          });
+        },
+        codeAutoRetrievalTimeout: (String vID) {
+          setState(() {
+            VerificationCode = vID;
+          });
+        },
+        timeout: Duration(seconds: 60));
+  }
+
   final TextEditingController _pinotpcontroller = TextEditingController();
   final FocusNode _pinotpfocusnode = FocusNode();
   String? pins;
@@ -42,7 +76,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
           ),
           Text(
             "Verify Phone",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            style:
+                GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           SizedBox(
             height: height * 0.01,
@@ -113,29 +148,32 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     ))),
                 onPressed: () async {
                   print(pins.toString());
-                  // try {
-                  //   await FirebaseAuth.instance
-                  //       .signInWithCredential(PhoneAuthProvider.credential(
-                  //           verificationId: widget.verificationCode!,
-                  //           smsCode: pins.toString()))
-                  //       .then((value) {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Home()));
-                  //   });
-                  // } catch (e) {
-                  //   FocusScope.of(context).unfocus();
-                  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //     content: Text(e.toString()),
-                  //     duration: Duration(seconds: 3),
-                  //   ));
-                  // }
+                  print(widget.phoneNo.toString());
+                  try {
+                    await FirebaseAuth.instance
+                        .signInWithCredential(PhoneAuthProvider.credential(
+                            verificationId: VerificationCode!,
+                            smsCode: pins.toString()))
+                        .then((value) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Home()));
+                    });
+                  } catch (e) {
+                    FocusScope.of(context).unfocus();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(e.toString()),
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 3),
+                    ));
+                  }
                 },
                 child: Text(
                   "VERIFY AND CONTINUE",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 )),
           )
         ],

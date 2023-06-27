@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy_task/main.dart';
 import 'package:liveasy_task/screens/verify.dart';
 
@@ -14,31 +15,6 @@ class PhoneNumberVerfication extends StatefulWidget {
 class _PhoneNumberVerficationState extends State<PhoneNumberVerfication> {
   TextEditingController _controller = TextEditingController();
   String dialCodeDigits = "+91";
-  String? VerificationCode;
-  verifyPhonenumber({@required phoneNo, @required codedigit}) async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: "${codedigit + phoneNo}",
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await FirebaseAuth.instance.signInWithCredential(credential);
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(e.message.toString()),
-            duration: Duration(seconds: 3),
-          ));
-        },
-        codeSent: (String vID, int? resentToken) {
-          setState(() {
-            VerificationCode = vID;
-          });
-        },
-        codeAutoRetrievalTimeout: (String vID) {
-          setState(() {
-            VerificationCode = vID;
-          });
-        },
-        timeout: Duration(seconds: 60));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +39,12 @@ class _PhoneNumberVerficationState extends State<PhoneNumberVerfication> {
           Center(
             child: Text(
               "Please enter your mobile number",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+              style:
+                  GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 23),
             ),
           ),
           SizedBox(
-            height: height * 0.015,
+            height: height * 0.002,
           ),
           Text(
             "You'll receive a 6 digit code",
@@ -114,10 +91,11 @@ class _PhoneNumberVerficationState extends State<PhoneNumberVerfication> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Mobile Number",
-                    hintStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 19,
-                        fontWeight: FontWeight.normal),
+                    hintStyle: GoogleFonts.montserrat(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey,
+                    ),
                   ),
                   keyboardType: TextInputType.number,
                   controller: _controller,
@@ -141,14 +119,13 @@ class _PhoneNumberVerficationState extends State<PhoneNumberVerfication> {
                     ))),
                 onPressed: () {
                   if (_controller.text != "") {
-                    verifyPhonenumber(
-                        phoneNo: _controller.text, codedigit: dialCodeDigits);
+                    // verifyPhonenumber(
+                    //     phoneNo: _controller.text, codedigit: dialCodeDigits);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => VerifyOTP(
                                 codedigit: dialCodeDigits,
-                                verificationCode: VerificationCode,
                                 phoneNo: _controller.text)));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -160,10 +137,11 @@ class _PhoneNumberVerficationState extends State<PhoneNumberVerfication> {
                 },
                 child: Text(
                   "CONTINUE",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19,
-                      color: Colors.white),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 )),
           ),
           Spacer(),

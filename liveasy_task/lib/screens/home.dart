@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy_task/main.dart';
 
 class Home extends StatefulWidget {
@@ -18,12 +19,13 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: height * 0.2,
+            height: height * 0.25,
           ),
           Center(
             child: Text(
               "Please select your profile",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              style:
+                  GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 22),
             ),
           ),
           SizedBox(
@@ -151,10 +153,11 @@ class _HomeState extends State<Home> {
                 onPressed: () {},
                 child: Text(
                   "CONTINUE",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 )),
           )
         ],
