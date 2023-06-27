@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy_task/main.dart';
+import 'package:liveasy_task/screens/auth.dart';
 
 class Login_Page extends StatefulWidget {
   Login_Page({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class Login_Page extends StatefulWidget {
 }
 
 class _Login_PageState extends State<Login_Page> {
+  var click = "";
   final lang = ["English", "Tamil", "Hindi", "Telugu"];
   String? value;
   @override
@@ -39,7 +41,7 @@ class _Login_PageState extends State<Login_Page> {
             height: height * 0.01,
           ),
           Text("You can change the language"),
-          Text("at any time"),
+          Text("at any time."),
           SizedBox(
             height: height * 0.03,
           ),
@@ -69,12 +71,13 @@ class _Login_PageState extends State<Login_Page> {
                   ),
                   items: lang.map(language).toList(),
                   onChanged: (value) => setState(() {
+                        click = "1";
                         this.value = value;
                       })),
             ),
           ),
           SizedBox(
-            height: height * .03,
+            height: height * .04,
           ),
           SizedBox(
             height: height * 0.06,
@@ -87,15 +90,44 @@ class _Login_PageState extends State<Login_Page> {
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
                     ))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PhoneNumberVerfication()));
+                },
                 child: Text(
                   "NEXT",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 19,
                       color: Colors.white),
                 )),
-          )
+          ),
+          Spacer(),
+          click == ""
+              ? Stack(
+                  children: [
+                    Image.asset(
+                      "images/Vector.png",
+                      fit: BoxFit.fitWidth,
+                      width: double.infinity,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 7.0),
+                      child: Image.asset(
+                        "images/Vector (1).png",
+                        fit: BoxFit.fitWidth,
+                        width: double.infinity,
+                      ),
+                    )
+                  ],
+                )
+              : Image.asset(
+                  "images/login.png",
+                  width: double.infinity,
+                  fit: BoxFit.fitWidth,
+                )
         ],
       ),
     );
